@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Barang - Lost n Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-page {
+            margin-top: 80px;
+            padding: 40px 20px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            min-height: calc(100vh - 80px);
+        }
+
+        .search-header {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+
+        .search-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .search-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .btn-search {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .filter-tabs {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .results-section {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .results-header h2 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .results-count {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .item-badge.lost {
+            background: #dc2626;
+        }
+
+        .item-badge.found {
+            background: #059669;
+        }
+
+        .item-content {
+            padding: 1.5rem;
+        }
+
+        .item-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #eff6ff;
+            color: #2563eb;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .item-location {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .item-date {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-search {
+                width: 100%;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-header h1 {
+                font-size: 2rem;
+            }
+
+            .search-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Lost n Found</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="cari-barang.html" class="nav-link active">Cari Barang</a></li>
+                <li><a href="lapor-hilang.html" class="nav-link">Lapor Hilang</a></li>
+                <li><a href="lapor-temuan.html" class="nav-link">Lapor Temuan</a></li>
+                <li><a href="profil.html" class="nav-link">Profil</a></li>
+                <li><a href="index.html" class="btn-register" onclick="localStorage.removeItem('rememberEmail');">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SEARCH PAGE CONTENT -->
+    <div class="search-page">
+        <div class="search-header">
+            <h1>🔍 Cari Barang</h1>
+            <p>Cari barang hilang atau temuan di kampus Gunadarma</p>
+        </div>
+
+        <div class="search-container">
+            <form id="searchForm" class="search-form">
+                <div class="form-group">
+                    <label for="searchQuery">Kata Kunci</label>
+                    <input type="text" id="searchQuery" name="searchQuery" placeholder="Cari nama barang, kategori, dll...">
+                </div>
+                <div class="form-group">
+                    <label for="category">Kategori</label>
+                    <select id="category" name="category">
+                        <option value="">Semua Kategori</option>
+                        <option value="elektronik">Elektronik</option>
+                        <option value="pakaian">Pakaian</option>
+                        <option value="buku">Buku</option>
+                        <option value="aksesoris">Aksesoris</option>
+                        <option value="dompet">Dompet</option>
+                        <option value="kunci">Kunci</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="campus">Kampus</label>
+                    <select id="campus" name="campus">
+                        <option value="">Semua Kampus</option>
+                        <option value="depok">Depok</option>
+                        <option value="kalimalang">Kalimalang</option>
+                        <option value="salemba">Salemba</option>
+                        <option value="cianjur">Cianjur</option>
+                        <option value="cengkareng">Cengkareng</option>
+                        <option value="ikn">IKN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="type">Tipe</label>
+                    <select id="type" name="type">
+                        <option value="">Semua</option>
+                        <option value="lost">Hilang</option>
+                        <option value="found">Temuan</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-search">🔍 Cari</button>
+            </form>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Semua</button>
+            <button class="filter-tab" data-filter="lost">Barang Hilang</button>
+            <button class="filter-tab" data-filter="found">Barang Temuan</button>
+        </div>
+
+        <div class="results-section">
+            <div class="results-header">
+                <h2>Hasil Pencarian</h2>
+                <div class="results-count" id="resultsCount">Menampilkan 4 hasil</div>
+            </div>
+
+            <div class="items-grid" id="itemsGrid">
+                <!-- Sample items -->
+                <div class="item-card" data-type="found">
+                    <div class="item-image">
+                        📱
+                        <span class="item-badge found">Temuan</span>
+                    </div>
+                    <div class="item-content">
+                        <span class="item-category">Elektronik</span>
+                        <h3 class="item-title">Handphone iPhone 13</h3>
+                        <p class="item-description">Ditemukan di area parkir kampus Depok. Warna hitam dengan case transparan.</p>
+                        <div class="item-meta">
+                            <span class="item-location">📍 Depok</span>
+                            <span class="item-date">📅 2 hari lalu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card" data-type="lost">
+                    <div class="item-image">
+                        👕
+                        <span class="item-badge lost">Hilang</span>
+                    </div>
+                    <div class="item-content">
+                        <span class="item-category">Pakaian</span>
+                        <h3 class="item-title">Jaket Hoodie Hitam</h3>
+                        <p class="item-description">Hilang di area kafetaria kampus Kalimalang. Brand Uniqlo dengan logo di dada.</p>
+                        <div class="item-meta">
+                            <span class="item-location">📍 Kalimalang</span>
+                            <span class="item-date">📅 3 hari lalu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card" data-type="found">
+                    <div class="item-image">
+                        📚
+                        <span class="item-badge found">Temuan</span>
+                    </div>
+                    <div class="item-content">
+                        <span class="item-category">Buku</span>
+                        <h3 class="item-title">Buku Algoritma & Struktur Data</h3>
+                        <p class="item-description">Ditemukan di perpustakaan kampus Salemba. Ada nama di halaman depan.</p>
+                        <div class="item-meta">
+                            <span class="item-location">📍 Salemba</span>
+                            <span class="item-date">📅 5 hari lalu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card" data-type="lost">
+                    <div class="item-image">
+                        💼
+                        <span class="item-badge lost">Hilang</span>
+                    </div>
+                    <div class="item-content">
+                        <span class="item-category">Aksesoris</span>
+                        <h3 class="item-title">Dompet Kulit Coklat</h3>
+                        <p class="item-description">Hilang di area lobby gedung utama kampus Depok. Berisi kartu identitas.</p>
+                        <div class="item-meta">
+                            <span class="item-location">📍 Depok</span>
+                            <span class="item-date">📅 1 minggu lalu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lost n Found</h3>
+                    <p>Platform barang hilang dan temuan untuk mahasiswa Universitas Gunadarma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="cari-barang.html">Cari Barang</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kampus</h4>
+                    <ul>
+                        <li>Depok</li>
+                        <li>Kalimalang</li>
+                        <li>Salemba</li>
+                        <li>Cianjur</li>
+                        <li>Cengkareng</li>
+                        <li>IKN</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p>Email: info@lostfound.gunadarma.ac.id</p>
+                    <p>Khusus Mahasiswa UG</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost n Found - Universitas Gunadarma. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Filter tabs functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const itemCards = document.querySelectorAll('.item-card');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                filterTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                // Filter items
+                let visibleCount = 0;
+                itemCards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        const cardType = card.getAttribute('data-type');
+                        if (cardType === filter) {
+                            card.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+
+                // Update results count
+                document.getElementById('resultsCount').textContent = `Menampilkan ${visibleCount} hasil`;
+            });
+        });
+
+        // Search form functionality
+        const searchForm = document.getElementById('searchForm');
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add search functionality here
+            console.log('Searching...');
+        });
+
+        // Card click to view details
+        itemCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Navigate to detail page (to be created)
+                console.log('View item details');
+            });
+        });
+    </script>
+</body>
+</html>
+

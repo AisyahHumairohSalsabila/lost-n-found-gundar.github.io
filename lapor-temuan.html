@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lapor Barang Temuan - Lost n Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .report-page {
+            margin-top: 80px;
+            padding: 40px 20px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            min-height: calc(100vh - 80px);
+        }
+
+        .report-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .report-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .report-header p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: #dc2626;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .file-upload {
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background: #f8fafc;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: #eff6ff;
+        }
+
+        .file-upload.dragover {
+            border-color: #667eea;
+            background: #eff6ff;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-hint {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .preview-image {
+            margin-top: 1rem;
+            max-width: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .preview-image.show {
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #059669;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .report-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .report-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Lost n Found</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="cari-barang.html" class="nav-link">Cari Barang</a></li>
+                <li><a href="lapor-hilang.html" class="nav-link">Lapor Hilang</a></li>
+                <li><a href="lapor-temuan.html" class="nav-link active">Lapor Temuan</a></li>
+                <li><a href="profil.html" class="nav-link">Profil</a></li>
+                <li><a href="index.html" class="btn-register" onclick="localStorage.removeItem('rememberEmail');">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- REPORT PAGE CONTENT -->
+    <div class="report-page">
+        <div class="report-container">
+            <div class="report-header">
+                <h1>🔍 Lapor Barang Temuan</h1>
+                <p>Isi form di bawah ini untuk melaporkan barang yang Anda temukan</p>
+            </div>
+
+            <div class="info-box">
+                <strong>Info:</strong> Dengan melaporkan barang temuan, Anda membantu pemilik asli menemukan kembali barangnya. Pastikan informasi yang diberikan akurat.
+            </div>
+
+            <form id="reportForm">
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+
+                <div class="form-group">
+                    <label for="itemName">Nama Barang <span class="required">*</span></label>
+                    <input type="text" id="itemName" name="itemName" placeholder="Contoh: Handphone iPhone 13" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Kategori <span class="required">*</span></label>
+                        <select id="category" name="category" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="elektronik">Elektronik</option>
+                            <option value="pakaian">Pakaian</option>
+                            <option value="buku">Buku</option>
+                            <option value="aksesoris">Aksesoris</option>
+                            <option value="dompet">Dompet</option>
+                            <option value="kunci">Kunci</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="campus">Kampus <span class="required">*</span></label>
+                        <select id="campus" name="campus" required>
+                            <option value="">Pilih Kampus</option>
+                            <option value="depok">Depok</option>
+                            <option value="kalimalang">Kalimalang</option>
+                            <option value="salemba">Salemba</option>
+                            <option value="cianjur">Cianjur</option>
+                            <option value="cengkareng">Cengkareng</option>
+                            <option value="ikn">IKN</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Lokasi Ditemukan <span class="required">*</span></label>
+                    <input type="text" id="location" name="location" placeholder="Contoh: Area parkir kampus Depok" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateFound">Tanggal Ditemukan <span class="required">*</span></label>
+                        <input type="date" id="dateFound" name="dateFound" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeFound">Waktu Ditemukan (Opsional)</label>
+                        <input type="time" id="timeFound" name="timeFound">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Deskripsi Barang <span class="required">*</span></label>
+                    <textarea id="description" name="description" placeholder="Jelaskan detail barang yang ditemukan: warna, merek, ciri-ciri khusus, kondisi barang, dll." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Kontak Anda (WhatsApp/Email) <span class="required">*</span></label>
+                    <input type="text" id="contact" name="contact" placeholder="Contoh: 081234567890 atau email@student.gunadarma.ac.id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Foto Barang <span class="required">*</span></label>
+                    <div class="file-upload" id="fileUpload">
+                        <div class="file-upload-icon">📷</div>
+                        <div class="file-upload-text">Klik atau drag & drop untuk upload foto</div>
+                        <div class="file-upload-hint">Format: JPG, PNG (Max 5MB)</div>
+                        <input type="file" id="image" name="image" accept="image/*" required>
+                    </div>
+                    <img id="previewImage" class="preview-image" alt="Preview">
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Laporkan Barang Temuan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lost n Found</h3>
+                    <p>Platform barang hilang dan temuan untuk mahasiswa Universitas Gunadarma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="cari-barang.html">Cari Barang</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kampus</h4>
+                    <ul>
+                        <li>Depok</li>
+                        <li>Kalimalang</li>
+                        <li>Salemba</li>
+                        <li>Cianjur</li>
+                        <li>Cengkareng</li>
+                        <li>IKN</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p>Email: info@lostfound.gunadarma.ac.id</p>
+                    <p>Khusus Mahasiswa UG</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost n Found - Universitas Gunadarma. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // File upload handling (same as lapor-hilang.html)
+        const fileUpload = document.getElementById('fileUpload');
+        const fileInput = document.getElementById('image');
+        const previewImage = document.getElementById('previewImage');
+
+        fileUpload.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File terlalu besar. Maksimal 5MB');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.add('show');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and drop
+        fileUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUpload.classList.add('dragover');
+        });
+
+        fileUpload.addEventListener('dragleave', () => {
+            fileUpload.classList.remove('dragover');
+        });
+
+        fileUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUpload.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.add('show');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission
+        const reportForm = document.getElementById('reportForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        reportForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            
+            // Validate form
+            const itemName = document.getElementById('itemName').value;
+            const category = document.getElementById('category').value;
+            const campus = document.getElementById('campus').value;
+            const location = document.getElementById('location').value;
+            const dateFound = document.getElementById('dateFound').value;
+            const description = document.getElementById('description').value;
+            const contact = document.getElementById('contact').value;
+            const image = document.getElementById('image').files[0];
+            
+            if (!itemName || !category || !campus || !location || !dateFound || !description || !contact || !image) {
+                errorMessage.textContent = 'Mohon lengkapi semua field yang wajib diisi, termasuk foto barang';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Memproses...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                successMessage.textContent = 'Laporan berhasil dikirim! Barang temuan Anda akan muncul di daftar pencarian.';
+                successMessage.classList.add('show');
+                
+                // Reset form
+                reportForm.reset();
+                previewImage.classList.remove('show');
+                
+                // Redirect to dashboard after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+

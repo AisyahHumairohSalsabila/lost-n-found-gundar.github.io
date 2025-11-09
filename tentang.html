@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Lost n Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .about-page {
+            padding: 100px 20px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+        }
+
+        .about-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .about-text-content p {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 4rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .about-image-circle {
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .about-image-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-image-content p {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-image-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stats-section {
+            background: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .how-it-works-section {
+            padding: 4rem 0;
+        }
+
+        .how-it-works-section h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .step-item {
+            text-align: center;
+            flex: 1;
+            min-width: 220px;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .step-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .step-item p {
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .step-arrow {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        @media (max-width: 968px) {
+            .about-content-section {
+                grid-template-columns: 1fr;
+            }
+
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .steps-container {
+                flex-direction: column;
+            }
+
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .about-hero p {
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Lost n Found</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="tentang.html" class="nav-link active">Tentang Kami</a></li>
+                <li><a href="login.html" class="nav-link">Login</a></li>
+                <li><a href="register.html" class="btn-register">Daftar</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ABOUT PAGE CONTENT -->
+    <div class="about-page">
+        <div class="container">
+            <div class="about-hero">
+                <h1>Tentang Kami</h1>
+                <p>Lost n Found adalah platform digital yang dikembangkan khusus untuk mahasiswa Universitas Gunadarma</p>
+            </div>
+
+            <div class="about-content-section">
+                <div class="about-text-content">
+                    <h2>Misi Kami</h2>
+                    <p>Kami memahami betapa merepotkannya kehilangan barang penting seperti handphone, dompet, atau buku di area kampus yang luas. Lost n Found hadir sebagai solusi untuk membantu mahasiswa menemukan kembali barang yang hilang.</p>
+                    <p>Dengan Lost n Found, kami menjembatani antara mahasiswa yang menemukan barang dengan pemilik aslinya. Platform ini memudahkan komunikasi dan koordinasi sehingga barang yang hilang dapat kembali kepada pemiliknya dengan cepat dan aman.</p>
+                </div>
+                <div class="about-image">
+                    <div class="about-image-circle"></div>
+                    <div class="about-image-content">
+                        <p>🎓</p>
+                        <h3>Universitas Gunadarma</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Kampus Terhubung</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Barang Terdata</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Akses Platform</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="how-it-works-section">
+                <h2>Cara Kerja</h2>
+                <div class="steps-container">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h3>Daftar Akun</h3>
+                        <p>Registrasi menggunakan email mahasiswa Gunadarma Anda untuk memulai</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h3>Login & Upload</h3>
+                        <p>Login dan upload informasi barang yang hilang atau ditemukan</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h3>Hubungi Pemilik</h3>
+                        <p>Gunakan fitur pesan untuk koordinasi pengambilan barang dengan aman</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lost n Found</h3>
+                    <p>Platform barang hilang dan temuan untuk mahasiswa Universitas Gunadarma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Daftar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kampus</h4>
+                    <ul>
+                        <li>Depok</li>
+                        <li>Kalimalang</li>
+                        <li>Salemba</li>
+                        <li>Cianjur</li>
+                        <li>Cengkareng</li>
+                        <li>IKN</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p>Email: info@lostfound.gunadarma.ac.id</p>
+                    <p>Khusus Mahasiswa UG</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost n Found - Universitas Gunadarma. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

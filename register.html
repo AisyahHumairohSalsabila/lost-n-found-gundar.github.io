@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Lost n Found</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .register-page {
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .register-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .register-header p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.2rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .terms-checkbox label {
+            color: #64748b;
+            cursor: pointer;
+            line-height: 1.6;
+        }
+
+        .terms-checkbox label a {
+            color: #2563eb;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .terms-checkbox label a:hover {
+            color: #1d4ed8;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-register:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            color: #94a3b8;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #64748b;
+        }
+
+        .login-link a {
+            color: #2563eb;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #1d4ed8;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #059669;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        #passwordStrength {
+            color: #64748b;
+        }
+
+        #passwordStrength.weak {
+            color: #dc2626;
+        }
+
+        #passwordStrength.medium {
+            color: #f59e0b;
+        }
+
+        #passwordStrength.strong {
+            color: #059669;
+        }
+
+        #passwordMatch {
+            color: #64748b;
+        }
+
+        #passwordMatch.match {
+            color: #059669;
+        }
+
+        #passwordMatch.mismatch {
+            color: #dc2626;
+        }
+
+        #emailValidation {
+            color: #64748b;
+        }
+
+        #emailValidation.valid {
+            color: #059669;
+        }
+
+        #emailValidation.invalid {
+            color: #dc2626;
+        }
+
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .register-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">Lost n Found</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+                <li><a href="login.html" class="nav-link">Login</a></li>
+                <li><a href="register.html" class="btn-register active">Daftar</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- REGISTER PAGE CONTENT -->
+    <div class="register-page">
+        <div class="register-container">
+            <div class="register-header">
+                <h1>Buat Akun Baru</h1>
+                <p>Bergabunglah dengan komunitas Lost n Found</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+
+                <div class="form-group">
+                    <label for="fullname">Nama Lengkap</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Masukkan nama lengkap" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Mahasiswa</label>
+                    <input type="email" id="email" name="email" placeholder="nama@student.gunadarma.ac.id" required>
+                    <div id="emailValidation" style="margin-top: 0.5rem; font-size: 0.85rem;"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nim">NIM</label>
+                        <input type="text" id="nim" name="nim" placeholder="Masukkan NIM" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="campus">Kampus</label>
+                        <select id="campus" name="campus" required>
+                            <option value="">Pilih Kampus</option>
+                            <option value="depok">Depok</option>
+                            <option value="kalimalang">Kalimalang</option>
+                            <option value="salemba">Salemba</option>
+                            <option value="cianjur">Cianjur</option>
+                            <option value="cengkareng">Cengkareng</option>
+                            <option value="ikn">IKN</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" placeholder="Minimal 8 karakter" required minlength="8">
+                        <button type="button" id="togglePassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b; font-size: 1.2rem; padding: 0;">👁️</button>
+                    </div>
+                    <div id="passwordStrength" style="margin-top: 0.5rem; font-size: 0.85rem;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Konfirmasi Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ulangi password" required>
+                        <button type="button" id="toggleConfirmPassword" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b; font-size: 1.2rem; padding: 0;">👁️</button>
+                    </div>
+                    <div id="passwordMatch" style="margin-top: 0.5rem; font-size: 0.85rem;"></div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-register">Daftar Sekarang</button>
+            </form>
+
+            <div class="divider">atau</div>
+
+            <div class="login-link">
+                <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lost n Found</h3>
+                    <p>Platform barang hilang dan temuan untuk mahasiswa Universitas Gunadarma</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Daftar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kampus</h4>
+                    <ul>
+                        <li>Depok</li>
+                        <li>Kalimalang</li>
+                        <li>Salemba</li>
+                        <li>Cianjur</li>
+                        <li>Cengkareng</li>
+                        <li>IKN</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p>Email: info@lostfound.gunadarma.ac.id</p>
+                    <p>Khusus Mahasiswa UG</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Lost n Found - Universitas Gunadarma. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        toggleConfirmPassword.addEventListener('click', function() {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        // Email validation
+        const emailInput = document.getElementById('email');
+        const emailValidation = document.getElementById('emailValidation');
+        
+        emailInput.addEventListener('blur', function() {
+            const email = this.value;
+            const emailPattern = /^[^\s@]+@student\.gunadarma\.ac\.id$/;
+            
+            if (email && !emailPattern.test(email)) {
+                emailValidation.textContent = '❌ Email harus menggunakan format @student.gunadarma.ac.id';
+                emailValidation.className = 'invalid';
+            } else if (email && emailPattern.test(email)) {
+                emailValidation.textContent = '✅ Format email valid';
+                emailValidation.className = 'valid';
+            } else {
+                emailValidation.textContent = '';
+                emailValidation.className = '';
+            }
+        });
+
+        // Password strength checker
+        const passwordInputField = document.getElementById('password');
+        const passwordStrength = document.getElementById('passwordStrength');
+        
+        passwordInputField.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            let feedback = '';
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+
+            if (password.length === 0) {
+                feedback = '';
+                passwordStrength.className = '';
+            } else if (strength <= 1) {
+                feedback = '❌ Password lemah';
+                passwordStrength.className = 'weak';
+            } else if (strength === 2) {
+                feedback = '⚠️ Password sedang';
+                passwordStrength.className = 'medium';
+            } else {
+                feedback = '✅ Password kuat';
+                passwordStrength.className = 'strong';
+            }
+
+            passwordStrength.textContent = feedback;
+        });
+
+        // Password match checker
+        const confirmPasswordInputField = document.getElementById('confirmPassword');
+        const passwordMatch = document.getElementById('passwordMatch');
+        
+        confirmPasswordInputField.addEventListener('input', function() {
+            const password = passwordInputField.value;
+            const confirmPassword = this.value;
+
+            if (confirmPassword.length === 0) {
+                passwordMatch.textContent = '';
+                passwordMatch.className = '';
+            } else if (password === confirmPassword) {
+                passwordMatch.textContent = '✅ Password cocok';
+                passwordMatch.className = 'match';
+            } else {
+                passwordMatch.textContent = '❌ Password tidak cocok';
+                passwordMatch.className = 'mismatch';
+            }
+        });
+
+        // Handle register form submission
+        const registerForm = document.getElementById('registerForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = registerForm.querySelector('.btn-register');
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const nim = document.getElementById('nim').value;
+            const campus = document.getElementById('campus').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validate email format
+            const emailPattern = /^[^\s@]+@student\.gunadarma\.ac\.id$/;
+            if (!emailPattern.test(email)) {
+                errorMessage.textContent = 'Email harus menggunakan format @student.gunadarma.ac.id';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Validate NIM (should be numeric and reasonable length)
+            if (!nim || nim.length < 8) {
+                errorMessage.textContent = 'NIM harus minimal 8 karakter';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Password dan konfirmasi password tidak cocok!';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                errorMessage.textContent = 'Password minimal 8 karakter';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Validate terms
+            if (!terms) {
+                errorMessage.textContent = 'Anda harus menyetujui Syarat & Ketentuan';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Memproses...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                successMessage.textContent = 'Registrasi berhasil! Mengalihkan ke halaman login...';
+                successMessage.classList.add('show');
+                
+                // Redirect to login after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+
