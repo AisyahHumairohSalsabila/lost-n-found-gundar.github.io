@@ -71,5 +71,5 @@ Dikembangkan untuk mahasiswa Universitas Gunadarma
 
 ## 📄 Lisensi
 
-© 2024 Lost n Found - Universitas Gunadarma. All rights reserved.
+© 2025 Lost n Found - Universitas Gunadarma. All rights reserved.
 
